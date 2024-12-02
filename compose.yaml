@@ -1,0 +1,32 @@
+services:
+  database:
+    image: postgres:17-alpine
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_DB: shorty
+      POSTGRES_USER: shorty
+      POSTGRES_PASSWORD: mooi-wachtwoord
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+
+  shorty:
+    build: .
+    ports:
+      - '8080:8080'
+    develop:
+      watch:
+        - path: ./src/
+          action: rebuild
+    environment:
+      SHORTY_HOST: 0.0.0.0
+      SHORTY_PORT: 8080
+      SHORTY_VISIBLE_HOST: "http://localhost:8080"
+      SHORTY_DATABASE_URL: "postgres://shorty:mooi-wachtwoord@database:5432/shorty"
+    depends_on:
+      database:
+        condition: service_healthy

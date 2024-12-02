@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO url (url) VALUES ($1) RETURNING url_id",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "url_id",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "e861059ffbab147059bc30af12cad5550ac7616dc83966b95fa327c23d33b06f"
+}
